@@ -23,15 +23,13 @@ const createOrder = async (req, res) => {
     const db = client.db("project");
     const orderBody = req.body;
     const { name, lastName, productId, userId, address } = orderBody;
-    const createOrder = await db
-      .collection("orders")
-      .insertOne({
-        name: name,
-        lastName: lastName,
-        productId: new ObjectId(productId),
-        userId: new ObjectId(userId),
-        address: address,
-      });
+    const createOrder = await db.collection("orders").insertOne({
+      name: name,
+      lastName: lastName,
+      productId: new ObjectId(productId),
+      userId: new ObjectId(userId),
+      address: address,
+    });
     client.close();
     res.status(200).send({ message: "order created" });
   } catch (error) {
@@ -39,4 +37,6 @@ const createOrder = async (req, res) => {
   }
 };
 
-module.exports = { getOrder, createOrder };
+const deleteOrder = async (req, res) => {};
+
+module.exports = { getOrder, createOrder, deleteOrder };
