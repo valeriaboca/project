@@ -37,6 +37,20 @@ const createOrder = async (req, res) => {
   }
 };
 
-const deleteOrder = async (req, res) => {};
+const deleteOrder = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("project");
+    const orderId = new ObjectId(req.params.id);
+    const deleteOrderId = await db
+      .collection("orders")
+      .deleteOne({ _id: orderId });
+    client.close();
+    res.status(200).send({ message: "order deleted" });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
 
 module.exports = { getOrder, createOrder, deleteOrder };
