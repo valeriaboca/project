@@ -10,7 +10,12 @@ const {
   deleteProduct,
 } = require("./app/products");
 
-const { getOrder, createOrder, deleteOrder } = require("./app/orders");
+const {
+  getOrder,
+  createOrder,
+  updateOrder,
+  deleteOrder,
+} = require("./app/orders");
 
 const { getUser } = require("./app/users");
 
@@ -46,6 +51,8 @@ app.delete("/products/:id", deleteProduct);
 app.get("/orders/:id", getOrder);
 
 app.post("/orders", createOrder);
+
+app.put("/orders/:id", updateOrder);
 
 app.delete("/orders/:id", deleteOrder);
 

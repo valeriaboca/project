@@ -37,6 +37,23 @@ const createOrder = async (req, res) => {
   }
 };
 
+const updateOrder = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("project");
+    const orderBody = req.body;
+    const orderId = new ObjectId(req.params.id);
+    const updatedOrder = await db
+      .collection("orders")
+      .updateOne({ _id: orderId }, { $set: orderBody });
+    client.close();
+    res.status(200).send({ message: "order updated" });
+  } catch (error) {
+    res.status(400).send({ message: "error to update order" });
+  }
+};
+
 const deleteOrder = async (req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options);
@@ -53,4 +70,4 @@ const deleteOrder = async (req, res) => {
   }
 };
 
-module.exports = { getOrder, createOrder, deleteOrder };
+module.exports = { getOrder, createOrder, updateOrder, deleteOrder };
