@@ -16,4 +16,18 @@ const getUser = async (req, res) => {
   res.send(user);
 };
 
-module.exports = { getUser };
+const createUser = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("project");
+    const userBody = req.body;
+    const createUser = await db.collection("users").insertOne(userBody);
+    client.close();
+    res.status(200).send({ message: "user created" });
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
+
+module.exports = { getUser, createUser };
