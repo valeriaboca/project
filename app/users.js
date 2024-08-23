@@ -30,4 +30,20 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, createUser };
+const updateUser = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("project");
+    const userBody = req.body;
+    const userId = new ObjectId(req.params.id);
+    const updateUser = await db
+      .collection("users")
+      .updateOne({ _id: userId }, { $set: userBody });
+    res.status(200).send({ message: "user updated" });
+  } catch (error) {
+    res.status(400).send({ message: "error updating user" });
+  }
+};
+
+module.exports = { getUser, createUser, updateUser };
