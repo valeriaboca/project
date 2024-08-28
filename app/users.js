@@ -46,4 +46,17 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUser, createUser, updateUser };
+const deleteUser = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("project");
+    const userId = new ObjectId(req.params.id);
+    const deleteUser = await db.collection("users").deleteOne({ _id: userId });
+    res.status(200).send({ message: "user deleted" });
+  } catch (error) {
+    res.status(400).send({ message: "error deleting user" });
+  }
+};
+
+module.exports = { getUser, createUser, updateUser, deleteUser };

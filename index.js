@@ -17,7 +17,7 @@ const {
   deleteOrder,
 } = require("./app/orders");
 
-const { getUser, createUser, updateUser } = require("./app/users");
+const { getUser, createUser, updateUser, deleteUser } = require("./app/users");
 
 app.get("/", function (req, res) {
   console.log("Got a GET request for the homepage");
@@ -63,6 +63,8 @@ app.get("/users/:id", getUser);
 app.post("/users", createUser);
 
 app.put("/users/:id", updateUser);
+
+app.delete("/users/:id", deleteUser);
 
 // app.get("/categories");
 
